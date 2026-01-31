@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,7 +17,7 @@
   --niq-border: rgba(0,58,143,0.18);
   --niq-muted: #6b7280;
   --niq-shadow: rgba(0,58,143,0.12);
-  --niq-glass: rgba(255,255,255,0.72);
+  --niq-glass: rgba(255,255,255,0.35);
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -51,15 +50,15 @@ body {
 .bubble {
   position: absolute;
   border-radius: 50%;
-  opacity: 0.05;
+  opacity: 0.06;
   animation: float linear infinite;
 }
 .bubble.dark { background: var(--niq-blue); }
 .bubble.light { background: var(--niq-blue-2); }
 
 @keyframes float {
-  0% { transform: translateY(120vh) translateX(0); }
-  100% { transform: translateY(-130vh) translateX(120px); }
+  0% { transform: translateY(120vh) translateX(0) rotate(0deg); }
+  100% { transform: translateY(-130vh) translateX(120px) rotate(360deg); }
 }
 
 /* ================= LAYOUT ================= */
@@ -88,10 +87,11 @@ body {
 
 .survey-card {
   background: var(--niq-glass);
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(25px);
   border: 2px solid var(--niq-border);
   box-shadow: 0 28px 70px var(--niq-shadow);
   padding: 2.6rem 2.8rem;
+  border-radius: 16px;
 }
 
 .survey-title { font-size: 2rem; font-weight: 700; margin-bottom: 0.3rem; }
@@ -99,135 +99,198 @@ body {
 
 /* ================= PROGRESS ================= */
 .progress-wrap { margin: 1.4rem 0 2rem; }
-.progress-bar { height: 6px; background: rgba(0,58,143,0.12); }
-.progress-fill { height: 100%; width: 25%; background: linear-gradient(90deg, var(--niq-blue), var(--niq-blue-2)); transition: width 0.4s ease; }
+.progress-bar { 
+  height: 6px; 
+  background: rgba(0,58,143,0.12);
+  border-radius: 3px;
+}
+.progress-fill { 
+  height: 100%; 
+  width: 25%; 
+  background: linear-gradient(90deg, var(--niq-blue), var(--niq-blue-2)); 
+  transition: width 0.4s ease;
+  border-radius: 3px;
+}
 .progress-steps { display: flex; justify-content: space-between; font-size: 0.8rem; margin-top: 0.6rem; color: var(--niq-muted); }
 
 .step { display: none; }
 .step.active { display: block; }
 
-.question { margin-bottom: 2rem; }
-.question-title { font-size: 1.05rem; font-weight: 600; margin-bottom: 0.25rem; }
-.question-desc { font-size: 0.9rem; color: var(--niq-muted); margin-bottom: 1.1rem; }
-
-/* ================= NPS ================= */
-.nps-scale { display: grid; grid-template-columns: repeat(11, 1fr); gap: 0.45rem; }
-.nps-item {
-  padding: 0.65rem 0;
-  text-align: center;
-  border: 2px solid var(--niq-blue);
-  cursor: pointer;
-  transition: 0.2s ease;
-  font-size: 0.85rem;
-  font-weight: 600;
-  background: white;
-}
-.nps-item:hover { background: #e6f0ff; }
-.nps-item.selected { background: var(--niq-blue); color: white; }
-.nps-labels { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--niq-muted); margin-top: 0.5rem; }
-
-/* ================= ULTRA CORPORATE EMOJI SYSTEM ================= */
-.emoji-row {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 0.6rem;
-}
-
-.emoji-box {
+/* ================= RATING SCALE DESCRIPTION ================= */
+.rating-guide {
+  background: rgba(0,58,143,0.08);
+  backdrop-filter: blur(12px);
   border: 2px solid var(--niq-border);
-  background: white;
-  padding: 0.9rem 0.6rem;
+  padding: 1rem 1.4rem;
+  margin-bottom: 2.5rem;
+  border-radius: 8px;
   text-align: center;
-  cursor: pointer;
-  transition: all 0.18s ease;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.35rem;
 }
 
-.emoji-box:hover {
-  border-color: var(--niq-blue);
-  background: #f0f5ff;
-}
-
-.emoji-box.selected {
-  border-color: var(--niq-blue);
-  background: #e6f0ff;
-  box-shadow: 0 6px 18px rgba(0,58,143,0.15);
-}
-
-/* corporate emoji icon style (google-like) */
-.emoji-icon {
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 2px solid var(--niq-blue);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-  color: var(--niq-blue);
-  background: white;
-  transition: transform 0.22s ease, background 0.22s ease, color 0.22s ease;
-}
-
-.emoji-box:hover .emoji-icon {
-  transform: scale(1.06);
-}
-
-.emoji-box.selected .emoji-icon {
-  background: var(--niq-blue);
-  color: white;
-  transform: scale(1.1);
-}
-
-.emoji-label {
-  font-size: 0.78rem;
+.rating-guide-text {
+  font-size: 0.95rem;
+  color: var(--niq-dark);
   font-weight: 600;
-  letter-spacing: 0.25px;
-  color: var(--niq-muted);
 }
 
-.emoji-box.selected .emoji-label { color: var(--niq-blue); }
+/* ================= SECTION DIVIDER ================= */
+.section-divider {
+  margin: 2.5rem 0 2rem;
+  padding-top: 2rem;
+  border-top: 2px solid var(--niq-border);
+}
+
+.section-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--niq-blue);
+  margin-bottom: 0.4rem;
+}
+
+.section-desc {
+  font-size: 0.9rem;
+  color: var(--niq-muted);
+  margin-bottom: 1.5rem;
+}
+
+/* ================= QUESTION BOX ================= */
+.question-box {
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(20px);
+  border: 2px solid var(--niq-border);
+  padding: 2rem 2.2rem;
+  margin-bottom: 1.5rem;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 30px rgba(0,58,143,0.06);
+}
+
+.question-box:hover {
+  background: rgba(255,255,255,0.35);
+  box-shadow: 0 12px 40px rgba(0,58,143,0.1);
+  transform: translateY(-2px);
+}
+
+.question-title { 
+  font-size: 1.1rem; 
+  font-weight: 600; 
+  margin-bottom: 1.3rem;
+  color: var(--niq-dark);
+}
+
+/* ================= NPS SCALE ================= */
+.nps-scale { 
+  display: grid; 
+  grid-template-columns: repeat(11, 1fr); 
+  gap: 0.5rem;
+}
+
+.nps-item {
+  padding: 0.75rem 0;
+  text-align: center;
+  border: 2px solid var(--niq-blue);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+  font-weight: 700;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 6px;
+}
+
+.nps-item:hover { 
+  background: #e6f0ff; 
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,58,143,0.15);
+}
+
+.nps-item.selected { 
+  background: var(--niq-blue); 
+  color: white; 
+  box-shadow: 0 6px 20px rgba(0,58,143,0.3);
+  transform: translateY(-2px);
+}
 
 /* ================= TEXTAREA ================= */
 .textarea {
   width: 100%;
-  min-height: 120px;
+  min-height: 140px;
   border: 2px solid var(--niq-border);
-  padding: 0.9rem;
+  padding: 1rem;
   font-family: inherit;
   font-size: 0.95rem;
   resize: none;
   transition: 0.2s ease;
+  border-radius: 8px;
+  background: rgba(255,255,255,0.7);
+  backdrop-filter: blur(10px);
 }
-.textarea:focus { outline: none; border-color: var(--niq-blue); background: #f0f5ff; }
+.textarea:focus { 
+  outline: none; 
+  border-color: var(--niq-blue); 
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 4px 20px rgba(0,58,143,0.12);
+}
 
 /* ================= BUTTONS ================= */
-.nav-buttons { display: flex; justify-content: space-between; margin-top: 2rem; }
+.nav-buttons { 
+  display: flex; 
+  justify-content: space-between; 
+  margin-top: 2rem;
+}
+
 .btn {
-  padding: 0.85rem 1.7rem;
+  padding: 0.9rem 2rem;
   border: 2px solid var(--niq-blue);
-  background: white;
-  font-weight: 600;
+  background: rgba(255,255,255,0.8);
+  backdrop-filter: blur(10px);
+  font-weight: 700;
   cursor: pointer;
   transition: 0.2s ease;
+  border-radius: 8px;
+  font-size: 0.95rem;
 }
-.btn.primary { background: linear-gradient(135deg, var(--niq-blue), var(--niq-blue-2)); color: white; }
-.btn:hover { transform: translateY(-2px); }
-.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.btn.primary { 
+  background: linear-gradient(135deg, var(--niq-blue), var(--niq-blue-2)); 
+  color: white;
+}
+
+.btn:hover { 
+  transform: translateY(-2px); 
+  box-shadow: 0 6px 20px rgba(0,58,143,0.2); 
+}
+
+.btn:disabled { 
+  opacity: 0.5; 
+  cursor: not-allowed;
+  transform: none;
+}
 
 /* ================= ANALYTICS PANEL ================= */
 .analytics-panel {
-  background: #f9fbff;
+  background: rgba(249,251,255,0.6);
+  backdrop-filter: blur(25px);
   border-left: 2px solid var(--niq-border);
   padding: 2.2rem 2rem;
 }
 .analytics-title { font-size: 1.15rem; font-weight: 700; margin-bottom: 1.3rem; }
-.metric { margin-bottom: 1.4rem; }
+.metric { 
+  margin-bottom: 1.4rem; 
+  background: rgba(255,255,255,0.4);
+  backdrop-filter: blur(15px);
+  padding: 1.2rem;
+  border-radius: 8px;
+  border: 2px solid var(--niq-border);
+}
 .metric-label { font-size: 0.85rem; color: var(--niq-muted); }
 .metric-value { font-size: 1.7rem; font-weight: 700; margin-top: 0.2rem; }
+
+/* ================= SUCCESS SCREEN ================= */
+.success-screen {
+  text-align: center;
+  padding: 3rem 2rem;
+}
 
 /* ================= WHEEL MODAL ================= */
 .wheel-overlay {
@@ -244,12 +307,13 @@ body {
 
 .wheel-modal {
   width: 680px;
-  background: var(--niq-glass);
-  backdrop-filter: blur(18px);
+  background: rgba(255,255,255,0.5);
+  backdrop-filter: blur(25px);
   border: 2px solid var(--niq-border);
   box-shadow: 0 30px 80px var(--niq-shadow);
   padding: 2rem 2.4rem;
   text-align: center;
+  border-radius: 12px;
 }
 .wheel-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.4rem; }
 .wheel-subtitle { font-size: 0.9rem; color: var(--niq-muted); margin-bottom: 1.4rem; }
@@ -304,9 +368,16 @@ canvas { width: 100%; height: 100%; }
   font-weight: 700;
   cursor: pointer;
   transition: 0.2s ease;
+  border-radius: 6px;
 }
 .wheel-btn.primary { background: linear-gradient(135deg, var(--niq-blue), var(--niq-blue-2)); color: white; }
-.wheel-result { margin-top: 0.8rem; font-weight: 700; color: var(--niq-blue); }
+.wheel-result { margin-top: 0.8rem; font-weight: 700; color: var(--niq-blue); font-size: 1.2rem; }
+
+.already-spun {
+  font-size: 1.1rem;
+  color: var(--niq-muted);
+  margin-top: 1rem;
+}
 
 @media (max-width: 1100px) {
   .app-layout { grid-template-columns: 220px 1fr; }
@@ -319,16 +390,32 @@ canvas { width: 100%; height: 100%; }
   .survey-card { padding: 1.8rem; }
   .wheel-modal { width: 92%; }
   .wrapper { width: 320px; height: 320px; }
+  .nps-scale { grid-template-columns: repeat(6, 1fr); }
 }
 </style>
 </head>
 <body>
 
 <div class="background-layer">
-  <div class="bubble dark" style="width:120px;height:120px;left:12%;animation-duration:30s;"></div>
-  <div class="bubble light" style="width:80px;height:80px;left:35%;animation-duration:22s;"></div>
-  <div class="bubble dark" style="width:150px;height:150px;left:62%;animation-duration:36s;"></div>
-  <div class="bubble light" style="width:60px;height:60px;left:82%;animation-duration:18s;"></div>
+  <!-- Enhanced floating bubbles - More bubbles added -->
+  <div class="bubble dark" style="width:120px;height:120px;left:5%;animation-duration:28s;"></div>
+  <div class="bubble light" style="width:90px;height:90px;left:12%;animation-duration:35s;animation-delay:-5s;"></div>
+  <div class="bubble dark" style="width:70px;height:70px;left:20%;animation-duration:24s;animation-delay:-10s;"></div>
+  <div class="bubble light" style="width:110px;height:110px;left:28%;animation-duration:32s;"></div>
+  <div class="bubble dark" style="width:85px;height:85px;left:35%;animation-duration:26s;animation-delay:-8s;"></div>
+  <div class="bubble light" style="width:100px;height:100px;left:42%;animation-duration:30s;animation-delay:-3s;"></div>
+  <div class="bubble dark" style="width:130px;height:130px;left:50%;animation-duration:38s;animation-delay:-12s;"></div>
+  <div class="bubble light" style="width:75px;height:75px;left:58%;animation-duration:22s;animation-delay:-6s;"></div>
+  <div class="bubble dark" style="width:95px;height:95px;left:65%;animation-duration:30s;"></div>
+  <div class="bubble light" style="width:115px;height:115px;left:72%;animation-duration:34s;animation-delay:-9s;"></div>
+  <div class="bubble dark" style="width:80px;height:80px;left:79%;animation-duration:27s;animation-delay:-15s;"></div>
+  <div class="bubble light" style="width:105px;height:105px;left:86%;animation-duration:33s;animation-delay:-7s;"></div>
+  <div class="bubble dark" style="width:65px;height:65px;left:93%;animation-duration:25s;animation-delay:-11s;"></div>
+  <div class="bubble light" style="width:90px;height:90px;left:10%;animation-duration:29s;animation-delay:-4s;"></div>
+  <div class="bubble dark" style="width:100px;height:100px;left:45%;animation-duration:31s;animation-delay:-13s;"></div>
+  <div class="bubble light" style="width:70px;height:70px;left:67%;animation-duration:23s;animation-delay:-8s;"></div>
+  <div class="bubble dark" style="width:85px;height:85px;left:82%;animation-duration:28s;animation-delay:-16s;"></div>
+  <div class="bubble light" style="width:95px;height:95px;left:15%;animation-duration:32s;animation-delay:-2s;"></div>
 </div>
 
 <div class="app-layout">
@@ -337,7 +424,7 @@ canvas { width: 100%; height: 100%; }
     <div class="brand-logo">NIQ</div>
     <div class="brand-title">Customer Experience</div>
     <div class="brand-subtitle">Enterprise feedback platform designed to improve service quality and decision-making.</div>
-    <div class="brand-footer">NIQ Internal Systems </div>
+    <div class="brand-footer">NIQ Internal Systems</div>
   </aside>
 
   <main class="survey-panel">
@@ -351,44 +438,62 @@ canvas { width: 100%; height: 100%; }
       <div class="progress-wrap">
         <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
         <div class="progress-steps">
-          <span>NPS</span><span>Experience</span><span>Feedback</span><span>Submit</span>
+          <span>Ratings</span><span>Feedback</span><span>Submit</span>
         </div>
       </div>
 
       <div class="step active" data-step="1">
-        <div class="question">
-          <div class="question-title">How likely are you to recommend NIQ support to a colleague?</div>
-          <div class="question-desc">0 = Not likely, 10 = Extremely likely</div>
-          <div class="nps-scale" id="npsScale"></div>
-          <div class="nps-labels"><span>Detractor</span><span>Promoter</span></div>
+        
+        <div class="rating-guide">
+          <div class="rating-guide-text">Rating Scale: 0 = Poor, 10 = Excellent</div>
         </div>
+
+        <div class="section-divider">
+          <div class="section-title">Service Quality Assessment</div>
+          <div class="section-desc">Rate your experience across key service dimensions</div>
+        </div>
+
+        <div class="question-box">
+          <div class="question-title">Overall Experience</div>
+          <div class="nps-scale" data-question="overall"></div>
+        </div>
+
+        <div class="question-box">
+          <div class="question-title">Communication Quality</div>
+          <div class="nps-scale" data-question="communication"></div>
+        </div>
+
+        <div class="question-box">
+          <div class="question-title">Solution Accuracy</div>
+          <div class="nps-scale" data-question="accuracy"></div>
+        </div>
+
+        <div class="question-box">
+          <div class="question-title">Response Time</div>
+          <div class="nps-scale" data-question="response"></div>
+        </div>
+
+        <div class="question-box">
+          <div class="question-title">Technical Expertise</div>
+          <div class="nps-scale" data-question="expertise"></div>
+        </div>
+
+        <div class="question-box">
+          <div class="question-title">Professional Courtesy</div>
+          <div class="nps-scale" data-question="courtesy"></div>
+        </div>
+
       </div>
 
       <div class="step" data-step="2">
-        <div class="question">
-          <div class="question-title">Overall Experience</div>
-          <div class="emoji-row" data-question="overall"></div>
-        </div>
-        <div class="question">
-          <div class="question-title">Communication Quality</div>
-          <div class="emoji-row" data-question="communication"></div>
-        </div>
-        <div class="question">
-          <div class="question-title">Solution Accuracy</div>
-          <div class="emoji-row" data-question="accuracy"></div>
+        <div class="question-box">
+          <div class="question-title">Additional Feedback</div>
+          <textarea class="textarea" id="textFeedback" placeholder="Share suggestions or issues to help us improve..."></textarea>
         </div>
       </div>
 
       <div class="step" data-step="3">
-        <div class="question">
-          <div class="question-title">Additional Feedback</div>
-          <div class="question-desc">Share suggestions or issues to help us improve.</div>
-          <textarea class="textarea" id="textFeedback" placeholder="Type your feedback here..."></textarea>
-        </div>
-      </div>
-
-      <div class="step" data-step="4">
-        <div class="success-screen active">
+        <div class="success-screen">
           <div class="survey-title" style="color:var(--niq-blue)">Feedback Submitted</div>
           <div class="survey-desc">Thank you for contributing to NIQ service excellence.</div>
         </div>
@@ -405,12 +510,12 @@ canvas { width: 100%; height: 100%; }
   <aside class="analytics-panel">
     <div class="analytics-title">Live Metrics</div>
     <div class="metric">
-      <div class="metric-label">NPS Score</div>
-      <div class="metric-value" id="metricNPS">-</div>
+      <div class="metric-label">Average Score</div>
+      <div class="metric-value" id="metricExp">-</div>
     </div>
     <div class="metric">
-      <div class="metric-label">Experience Score</div>
-      <div class="metric-value" id="metricExp">-</div>
+      <div class="metric-label">Completed</div>
+      <div class="metric-value" id="metricCompleted">0/6</div>
     </div>
     <div class="metric">
       <div class="metric-label">Reward Points</div>
@@ -423,9 +528,9 @@ canvas { width: 100%; height: 100%; }
 <div class="wheel-overlay" id="wheelOverlay">
   <div class="wheel-modal">
     <div class="wheel-title">NIQ Engagement Wheel</div>
-    <div class="wheel-subtitle">One spin only • Earn reward points</div>
+    <div class="wheel-subtitle" id="wheelSubtitle">One spin only • Earn reward points</div>
 
-    <div class="wrapper">
+    <div class="wrapper" id="wheelWrapper">
       <div class="pointer">
         <svg viewBox="0 0 40 50"><path d="M20 50 L40 0 L0 0 Z"/></svg>
       </div>
@@ -435,55 +540,49 @@ canvas { width: 100%; height: 100%; }
 
     <button class="wheel-btn primary" id="spinBtn">SPIN WHEEL</button>
     <div class="wheel-result" id="result"></div>
+    <div class="already-spun" id="alreadySpun" style="display:none;">You have already claimed your reward!</div>
   </div>
 </div>
 
 <script>
-const state = { nps: null, ratings: {}, text: "" };
+const state = { ratings: {}, text: "" };
 let currentStep = 1;
-const totalSteps = 4;
+const totalSteps = 3;
+let hasSubmitted = false; // Track if survey has been submitted in this session
 
 const progressFill = document.getElementById('progressFill');
 const prevBtn = document.getElementById('prevBtn');
 const nextBtn = document.getElementById('nextBtn');
 
-/* ===== NPS SCALE ===== */
-const npsScale = document.getElementById('npsScale');
-for (let i = 0; i <= 10; i++) {
-  const div = document.createElement('div');
-  div.className = 'nps-item';
-  div.textContent = i;
-  div.onclick = () => {
-    document.querySelectorAll('.nps-item').forEach(el => el.classList.remove('selected'));
-    div.classList.add('selected');
-    state.nps = i;
-    updateMetrics();
-  };
-  npsScale.appendChild(div);
+/* ===== CHECK IF WHEEL ALREADY SPUN ===== */
+function hasSpunWheel() {
+  return localStorage.getItem('niq_wheel_spun') === 'true';
 }
 
-/* ===== ULTRA CORPORATE EMOJIS (GOOGLE STYLE) ===== */
-const emojiData = [
-  { label: 'Poor', icon: '😞' },
-  { label: 'Fair', icon: '😐' },
-  { label: 'Good', icon: '🙂' },
-  { label: 'Great', icon: '😊' },
-  { label: 'Excellent', icon: '😃' }
-];
+function markWheelAsSpun() {
+  localStorage.setItem('niq_wheel_spun', 'true');
+}
 
-document.querySelectorAll('.emoji-row').forEach(row => {
-  emojiData.forEach((e, idx) => {
-    const box = document.createElement('div');
-    box.className = 'emoji-box';
-    box.innerHTML = `<div class="emoji-icon">${e.icon}</div><div class="emoji-label">${e.label}</div>`;
-    box.onclick = () => {
-      row.querySelectorAll('.emoji-box').forEach(b => b.classList.remove('selected'));
-      box.classList.add('selected');
-      state.ratings[row.dataset.question] = idx + 1;
+/* ===== LOAD SAVED POINTS ON PAGE LOAD ===== */
+window.addEventListener('DOMContentLoaded', () => {
+  const savedPoints = localStorage.getItem('niq_points') || '0';
+  document.getElementById('metricPoints').textContent = savedPoints;
+});
+
+/* ===== CREATE ALL RATING SCALES ===== */
+document.querySelectorAll('.nps-scale[data-question]').forEach(scale => {
+  for (let i = 0; i <= 10; i++) {
+    const div = document.createElement('div');
+    div.className = 'nps-item';
+    div.textContent = i;
+    div.onclick = () => {
+      scale.querySelectorAll('.nps-item').forEach(el => el.classList.remove('selected'));
+      div.classList.add('selected');
+      state.ratings[scale.dataset.question] = i;
       updateMetrics();
     };
-    row.appendChild(box);
-  });
+    scale.appendChild(div);
+  }
 });
 
 /* ===== STEP NAVIGATION ===== */
@@ -500,22 +599,30 @@ prevBtn.onclick = () => {
 };
 
 nextBtn.onclick = () => {
-  if (currentStep === 1 && state.nps === null) return alert('Please select NPS score');
-  if (currentStep === 2 && Object.keys(state.ratings).length < 3) return alert('Please rate all categories');
-  if (currentStep === 3) state.text = document.getElementById('textFeedback').value;
+  if (currentStep === 1 && Object.keys(state.ratings).length < 6) {
+    alert('Please rate all categories');
+    return;
+  }
+  
+  if (currentStep === 2) state.text = document.getElementById('textFeedback').value;
 
   if (currentStep < totalSteps) {
     currentStep++;
     showStep(currentStep);
   }
 
-  if (currentStep === totalSteps) setTimeout(openWheel, 1200);
+  // Only open wheel on first submission
+  if (currentStep === totalSteps && !hasSubmitted) {
+    hasSubmitted = true;
+    setTimeout(openWheel, 1200);
+  }
 };
 
 function updateMetrics() {
-  document.getElementById('metricNPS').textContent = state.nps !== null ? state.nps : '-';
-  const avg = Object.values(state.ratings).reduce((a,b)=>a+b,0) / (Object.keys(state.ratings).length || 1);
-  document.getElementById('metricExp').textContent = avg ? avg.toFixed(1) : '-';
+  const values = Object.values(state.ratings);
+  const avg = values.reduce((a,b)=>a+b,0) / (values.length || 1);
+  document.getElementById('metricExp').textContent = values.length > 0 ? avg.toFixed(1) : '-';
+  document.getElementById('metricCompleted').textContent = `${values.length}/6`;
 }
 
 showStep(currentStep);
@@ -526,9 +633,12 @@ const canvas = document.getElementById('wheel');
 const ctx = canvas.getContext('2d');
 const spinBtn = document.getElementById('spinBtn');
 const resultBox = document.getElementById('result');
+const alreadySpunMsg = document.getElementById('alreadySpun');
+const wheelSubtitle = document.getElementById('wheelSubtitle');
+const wheelWrapper = document.getElementById('wheelWrapper');
 
 const items = [
-  "150 Points", "650 Points ", "350 Points", "450 Points",
+  "150 Points", "650 Points", "350 Points", "450 Points",
   "550 Points", "250 Points", "800 Points", "Better Luck"
 ];
 
@@ -539,27 +649,38 @@ let isSpinning = false;
 let lastTickIndex = -1;
 
 const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
 function playTick() {
   const osc = audioCtx.createOscillator();
   const gain = audioCtx.createGain();
   osc.type = "sine";
-  osc.frequency.setValueAtTime(150, audioCtx.currentTime);
-  gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-  gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
-  osc.connect(gain); gain.connect(audioCtx.destination);
-  osc.start(); osc.stop(audioCtx.currentTime + 0.1);
+  osc.frequency.setValueAtTime(400, audioCtx.currentTime);
+  gain.gain.setValueAtTime(0.03, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.08);
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.08);
 }
 
 function playWin() {
-  const freqs = [523.25, 659.25, 783.99];
-  freqs.forEach((f, i) => {
+  const notes = [
+    { freq: 440, time: 0, duration: 0.15 },
+    { freq: 554.37, time: 0.12, duration: 0.15 },
+    { freq: 659.25, time: 0.24, duration: 0.25 }
+  ];
+  
+  notes.forEach(note => {
     const osc = audioCtx.createOscillator();
     const gain = audioCtx.createGain();
-    osc.frequency.setValueAtTime(f, audioCtx.currentTime + (i * 0.1));
-    gain.gain.setValueAtTime(0.05, audioCtx.currentTime + (i * 0.1));
-    gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(note.freq, audioCtx.currentTime + note.time);
+    gain.gain.setValueAtTime(0.08, audioCtx.currentTime + note.time);
+    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + note.time + note.duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start(audioCtx.currentTime + note.time);
+    osc.stop(audioCtx.currentTime + note.time + note.duration);
   });
 }
 
@@ -593,11 +714,32 @@ function drawWheel() {
 drawWheel();
 
 function openWheel() {
+  // Check if already spun
+  if (hasSpunWheel()) {
+    // Show already claimed message
+    wheelSubtitle.style.display = 'none';
+    wheelWrapper.style.opacity = '0.5';
+    spinBtn.style.display = 'none';
+    alreadySpunMsg.style.display = 'block';
+    
+    const savedPoints = localStorage.getItem('niq_points') || '0';
+    resultBox.textContent = `Your Total: ${savedPoints} Points`;
+    resultBox.style.display = 'block';
+  } else {
+    // Reset for new spin
+    wheelSubtitle.style.display = 'block';
+    wheelWrapper.style.opacity = '1';
+    spinBtn.style.display = 'inline-block';
+    spinBtn.disabled = false;
+    alreadySpunMsg.style.display = 'none';
+    resultBox.textContent = '';
+  }
+  
   wheelOverlay.classList.add('active');
 }
 
 spinBtn.addEventListener("click", () => {
-  if (isSpinning) return;
+  if (isSpinning || hasSpunWheel()) return;
   if (audioCtx.state === 'suspended') audioCtx.resume();
 
   isSpinning = true;
@@ -631,7 +773,6 @@ spinBtn.addEventListener("click", () => {
 
 function finalize() {
   isSpinning = false;
-  spinBtn.disabled = false;
 
   const slice = (2 * Math.PI) / items.length;
   const winningIndex = items.length - 1 - Math.floor(((currentAngle + Math.PI/2) % (Math.PI * 2)) / slice);
@@ -650,12 +791,26 @@ function finalize() {
   localStorage.setItem('niq_points', totalPoints);
   document.getElementById('metricPoints').textContent = totalPoints;
 
-  localStorage.setItem('niq_spin_done', 'true');
+  // Mark wheel as spun (ONE TIME ONLY)
+  markWheelAsSpun();
+
+  // Hide spin button after first spin
+  setTimeout(() => {
+    spinBtn.style.display = 'none';
+    wheelSubtitle.textContent = 'Reward Claimed!';
+  }, 2000);
 
   setTimeout(() => {
     wheelOverlay.classList.remove('active');
-  }, 2500);
+  }, 3500);
 }
+
+// Close wheel overlay when clicking outside
+wheelOverlay.addEventListener('click', (e) => {
+  if (e.target === wheelOverlay) {
+    wheelOverlay.classList.remove('active');
+  }
+});
 </script>
 </body>
 </html>
